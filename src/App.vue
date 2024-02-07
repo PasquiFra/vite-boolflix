@@ -19,12 +19,19 @@ export default {
   },
   methods: {
     callAxios(endpoint) {
+      store.firstAccess = false;
       axios.get(endpoint).then(res => {
+        store.films = res.data.results;
         console.log(store)
       })
     },
     searchTitle(text) {
       console.log("sto cercando... ", text)
+
+      const endpoint =
+        `https://api.themoviedb.org/3/search/movie?api_key=1045354cc543dac9c17edc10d1cc018f&query=${text}`
+
+      this.callAxios(endpoint)
     }
   }
 }
@@ -40,15 +47,14 @@ export default {
   <div class="container-fluid">
     <!-- Main section con lista film/serie -->
     <section>
-      <div>
+      <div v-if="store.firstAccess">
         <h1>Scegli il titolo di un Film o di una Serie TV</h1>
       </div>
-      <div>
-        <h1>Film e serie TV</h1>
+      <div v-else>
         <!-- ! Componente: FILM  -->
-        <CollectionList />
+        <CollectionList categories="Film" />
         <!-- ! Componente: SERIE  -->
-
+        <CollectionList categories="Serie TV" />
       </div>
     </section>
   </div>

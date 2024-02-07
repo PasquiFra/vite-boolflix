@@ -1,8 +1,10 @@
 <script>
+//Importo lo store
+
 export default {
     name: "SearchForm",
     data: () => ({
-        text: "",
+        text: ""
     }),
     computed: {
         lowercasedText() {
@@ -19,7 +21,7 @@ export default {
 </script>
 
 <template>
-    <form class="w-50 d-flex" action="" @submit.prevent="$emit('submit-search-text', lowercasedText)">
+    <form class="w-50 d-flex" @submit.prevent="$emit('submit-search-text', lowercasedText)">
         <input class="form-control" type="text" :placeholder="placeholder" v-model.trim="text">
         <button class="btn">Search</button>
     </form>
