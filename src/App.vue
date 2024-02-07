@@ -17,6 +17,11 @@ export default {
   components: {
     SearchForm, CollectionList
   },
+  computed: {
+    setCategories() {
+
+    }
+  },
   methods: {
     callAxios(endpoint) {
       store.firstAccess = false;
@@ -32,7 +37,7 @@ export default {
         `https://api.themoviedb.org/3/search/movie?api_key=1045354cc543dac9c17edc10d1cc018f&query=${text}`
 
       this.callAxios(endpoint)
-    }
+    },
   }
 }
 
@@ -52,9 +57,10 @@ export default {
       </div>
       <div v-else>
         <!-- ! Componente: FILM  -->
-        <CollectionList categories="Film" />
+        <CollectionList category="Film" :objects="store.films" :title="filmtitle"
+          :originalTitle="store.films.original_title" :originalLanguage="store.films.original_language" />
         <!-- ! Componente: SERIE  -->
-        <CollectionList categories="Serie TV" />
+        <!-- <CollectionList category="Serie TV" :objects="store.series" /> -->
       </div>
     </section>
   </div>
