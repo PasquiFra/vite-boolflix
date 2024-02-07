@@ -23,6 +23,9 @@ export default {
         console.log(store)
       })
     },
+    searchTitle(text) {
+      console.log("sto cercando... ", text)
+    }
   }
 }
 
@@ -30,25 +33,41 @@ export default {
 
 <template>
   <!-- Header con searchbar -->
-  <header>
+  <header class="d-flex">
     <h1>Boolflix</h1>
-    <SearchForm />
+    <SearchForm :placeholder="'Scrivi qui un titolo...'" @submit-search-text="searchTitle" />
   </header>
-  <!-- Main section con lista film/serie -->
-  <section>
-    <div>
-      <h1>Scegli il titolo di un Film o di una Serie TV</h1>
-    </div>
-    <div>
-      <h1>Film e serie TV</h1>
-      <!-- ! Componente: FILM  -->
-      <CollectionList />
-      <!-- ! Componente: SERIE  -->
+  <div class="container-fluid">
+    <!-- Main section con lista film/serie -->
+    <section>
+      <div>
+        <h1>Scegli il titolo di un Film o di una Serie TV</h1>
+      </div>
+      <div>
+        <h1>Film e serie TV</h1>
+        <!-- ! Componente: FILM  -->
+        <CollectionList />
+        <!-- ! Componente: SERIE  -->
 
-    </div>
-  </section>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style lang="scss">
 @use './assets/scss/style.scss';
+
+header {
+  height: 150px;
+  background-color: black;
+
+  padding: 0 1rem;
+
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    color: red;
+  }
+}
 </style>
