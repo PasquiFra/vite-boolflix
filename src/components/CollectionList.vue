@@ -17,7 +17,7 @@ export default {
 <template>
     <section>
         <h1>{{ category }}</h1>
-        <div class="row row-cols-sm-2 row-cols-md-5">
+        <div class="row">
 
             <CollectionCard :object="object" v-for="object in objects" />
 
@@ -27,8 +27,7 @@ export default {
 
 <style lang="scss" scoped>
 .row {
-    flex-wrap: wrap;
-    flex-shrink: 0;
+    justify-content: flex-start;
 
 }
 </style>
