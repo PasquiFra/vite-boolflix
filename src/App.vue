@@ -17,11 +17,6 @@ export default {
   components: {
     SearchForm, CollectionList
   },
-  computed: {
-    setCategories() {
-
-    }
-  },
   methods: {
     callAxios(endpoint) {
       store.firstAccess = false;
@@ -33,10 +28,12 @@ export default {
     searchTitle(text) {
       console.log("sto cercando... ", text)
 
-      const endpoint =
+      const filmEndpoint =
         `https://api.themoviedb.org/3/search/movie?api_key=1045354cc543dac9c17edc10d1cc018f&query=${text}`
 
       this.callAxios(endpoint)
+
+
     },
   }
 }
@@ -57,8 +54,7 @@ export default {
       </div>
       <div v-else>
         <!-- ! Componente: FILM  -->
-        <CollectionList category="Film" :objects="store.films" :title="filmtitle"
-          :originalTitle="store.films.original_title" :originalLanguage="store.films.original_language" />
+        <CollectionList category="Film" :objects="store.films" />
         <!-- ! Componente: SERIE  -->
         <!-- <CollectionList category="Serie TV" :objects="store.series" /> -->
       </div>

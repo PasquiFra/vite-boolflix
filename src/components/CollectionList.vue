@@ -4,11 +4,7 @@ export default {
     name: "CollectionList",
     props: {
         objects: Array,
-        category: String,
-        title: String,
-        originalTitle: String,
-        originalLanguage: String,
-        vote: Number,
+        category: String
     }
 };
 
@@ -20,20 +16,20 @@ export default {
         <div class="row">
             <ul class="col">
                 <li class="card" v-for="object in objects">
-                    <h3>{{ title }}</h3>
-                    <!-- <h6>{{ originalTitle }}</h6>
+                    <h3>{{ object.title }}</h3>
+                    <h6>{{ object.original_title }}</h6>
                     <div class="langs">
-                        <span v-if="originalLanguage === 'en'">
+                        <span v-if="object.original_language === 'en'">
                             Lingua:
                             <img src="../../public/en.png" alt="en">
                         </span>
-                        <span v-else-if="originalLanguagee === 'it'">
+                        <span v-else-if="object.original_language === 'it'">
                             Lingua:
                             <img src="../../public/it.png" alt="it">
                         </span>
-                        <span v-else>Lingua: {{ object.originalLanguage }}</span>
+                        <span v-else>Lingua: {{ object.original_language }}</span>
                     </div>
-                    <span>Voto medio: {{ object.vote_average }} su {{ object.vote_count }} totali</span> -->
+                    <span>Voto medio: {{ object.vote_average }} su {{ object.vote_count }} totali</span>
                 </li>
             </ul>
         </div>
