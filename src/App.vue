@@ -1,6 +1,8 @@
 <script>
 //Importo lo store
 import { store } from './data/store'
+//Importo api
+import { api } from './data/api'
 
 //Importo i componenti
 import SearchForm from './components/SearchForm.vue';
@@ -12,28 +14,32 @@ import axios from "axios";
 export default {
   name: "Boolflix",
   data: () => ({
-    store
+    store, api
   }),
   components: {
     SearchForm, CollectionList
   },
   methods: {
-    callAxios(endpoint) {
-      store.firstAccess = false;
+    callAxios(endpoint, collection) {
       axios.get(endpoint).then(res => {
-        store.films = res.data.results;
+        if (collection === "films") { store.films = res.data.results }
+        else { store.series = res.data.results }
         console.log(store)
       })
+      //.catch(err).then(store.firstAccess = true)
     },
     searchTitle(text) {
-      console.log("sto cercando... ", text)
+      api.query = text
+      store.firstAccess = false;
 
-      const filmEndpoint =
-        `https://api.themoviedb.org/3/search/movie?api_key=1045354cc543dac9c17edc10d1cc018f&query=${text}`
+      const filmsEndpoint =
+        `${api.baseUri}${api.searchMovies}${api.apiKey}&query=${api.query}`
 
-      this.callAxios(endpoint)
+      const seriesEndpoint =
+        `${api.baseUri}${api.searchSeries}${api.apiKey}&query=${api.query}`
 
-
+      this.callAxios(filmsEndpoint, "films")
+      this.callAxios(seriesEndpoint, "series")
     },
   }
 }
@@ -56,7 +62,7 @@ export default {
         <!-- ! Componente: FILM  -->
         <CollectionList category="Film" :objects="store.films" />
         <!-- ! Componente: SERIE  -->
-        <!-- <CollectionList category="Serie TV" :objects="store.series" /> -->
+        <CollectionList category="Serie TV" :objects="store.series" />
       </div>
     </section>
   </div>
