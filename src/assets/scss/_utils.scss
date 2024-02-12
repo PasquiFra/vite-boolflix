@@ -1,3 +1,11 @@
 ul {
     list-style-type: none;
 }
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}

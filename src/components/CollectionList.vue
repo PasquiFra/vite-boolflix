@@ -18,16 +18,23 @@ export default {
     <section>
         <h1>{{ category }}</h1>
         <div class="row">
-
-            <CollectionCard :object="object" v-for="object in objects" />
-
+            <ul class="col">
+                <CollectionCard v-bind="object" v-for="object in objects" />
+            </ul>
         </div>
     </section>
 </template>
 
 <style lang="scss" scoped>
-.row {
-    justify-content: flex-start;
+h1 {
+    padding: 15px 0;
+    color: white;
+}
 
+ul.col {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 </style>

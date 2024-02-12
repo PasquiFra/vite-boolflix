@@ -2,27 +2,23 @@
 export default {
     name: "CollectionCard",
     data: () => ({
+        posterPath: "http://image.tmdb.org/t/p/w342"
     }),
     props: {
-        object: Object,
+        id: Number,
+        title: String,
+        orTitle: String,
+        lang: String,
+        poster: String,
+        vote: Number,
+        voteCount: Number,
+        overview: String,
+        release: String
     },
     computed: {
-        setCategories() {
-            const title = this.object.title || this.object.name
-            const originalTitle = this.object.original_title || this.object.original_name
-            const language = this.object.original_language
-            const overview = this.object.overview
-            return { title, originalTitle, language, overview }
-        },
-        setLanguage() {
-            const lang = this.object.original_language
-            return lang
-        },
         setVote() {
-            const vote = this.object.vote_average
-            if (vote === 0) return "0"
-            const newVote = parseInt((vote / 2) + 1)
-            return newVote
+            if (this.vote === 0) return "0"
+            return Math.ceil(this.vote / 2)
         }
     },
     methods: {
@@ -34,65 +30,45 @@ export default {
 </script>
 
 <template>
-    <ul class="col">
-        <li class="card">
-            <div class="poster">
-                <img v-if="object.poster_path" :src="`http://image.tmdb.org/t/p/w342${object.poster_path}`" alt=""
-                    class="img-fluid">
-                <div id="no-poster" v-else>
-                    <h4>{{ setCategories.title }}</h4>
-                    <i class="fa-solid fa-photo-film"></i>
-                </div>
+    <li class="card">
+        <div class="poster">
+            <img v-if="poster" :src="`${posterPath}${poster}`" :alt="title" class="img-fluid">
+            <div id="no-poster" v-else>
+                <h4>{{ title }}</h4>
+                <i class="fa-solid fa-photo-film"></i>
             </div>
-            <div id="info">
-                <h6><strong>Titolo: </strong>{{ setCategories.title }}</h6>
-                <h6 v-if="setCategories.originalTitle !== setCategories.title"><strong>Titolo originale: </strong>{{
-                    setCategories.originalTitle }}</h6>
-                <div class="langs">
-                    <span v-if="setLanguage === 'en' || setLanguage === 'it'">
-                        <strong>Lingua: </strong>
-                        <img :src="`/${setLanguage}.png`" :alt="setLanguage">
-                    </span>
-                    <span v-else><strong>Lingua:</strong> {{ setCategories.language }}</span>
-                </div>
-                <span id="rating" class="d-flex">
-                    <strong>Rating: </strong>
-                    <span v-if="setVote === 1" class="px-1"><i class="fa-solid fa-star"></i><i
-                            class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i
-                            class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></span>
-                    <span v-else-if="setVote === 2"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i
-                            class="fa-regular fa-star"></i></span>
-                    <span v-else-if="setVote === 3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i
-                            class="fa-regular fa-star"></i></span>
-                    <span v-else-if="setVote === 4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-regular fa-star"></i></span>
-                    <span v-else-if="setVote === 5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i></span>
-                    <span v-else><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i
-                            class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i
-                            class="fa-regular fa-star"></i></span>
+        </div>
+        <div id="info">
+            <h6><strong>Titolo: </strong>{{ title }}</h6>
+            <h6 v-if="orTitle !== title"><strong>Titolo originale: </strong>{{
+                orTitle }}</h6>
+            <div class="langs">
+                <span v-if="lang === 'en' || lang === 'it'">
+                    <strong>Lingua: </strong>
+                    <img :src="`/${lang}.png`" :alt="lang">
                 </span>
-                <span><strong>Voti totali:</strong> {{ object.vote_count }}</span>
-                <div>
-                    <strong>Trama: </strong> {{ setCategories.overview }}
-                </div>
+                <span v-else><strong>Lingua:</strong> {{ lang }}</span>
             </div>
-        </li>
-    </ul>
+            <span id="rating" class="d-flex">
+                <strong>Rating: </strong>
+                <span><i v-for="n in 5" :key="n" class="fa-star" :class="n <= setVote ? 'fas' : 'far'"></i></span>
+            </span>
+            <span><strong>Voti totali:</strong> {{ voteCount }}</span>
+            <div>
+                <strong>Trama: </strong> {{ overview }}
+                <div><strong>Release: </strong> {{ release }}</div>
+            </div>
+        </div>
+    </li>
 </template>
 
 <style lang="scss" scoped>
-.col {
-    flex-grow: 0;
-    flex-shrink: 0;
+.row {
+    justify-content: flex-start;
+
 }
 
 .card {
-    background-color: transparent;
     position: relative;
     width: 350px;
     height: 500px;
@@ -107,9 +83,13 @@ export default {
 
     #no-poster {
         display: flex;
+        color: black;
     }
 
     &:hover {
+        background-color: white;
+        opacity: 85%;
+
         #info {
             display: block;
         }
@@ -172,7 +152,7 @@ export default {
             padding: 0 3px;
         }
 
-        .fa-solid.fa-star {
+        .fas.fa-star {
             color: gold;
         }
     }

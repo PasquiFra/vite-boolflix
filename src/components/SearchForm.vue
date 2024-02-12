@@ -22,6 +22,12 @@ export default {
 
 <template>
     <form class="w-50 d-flex" @submit.prevent="$emit('submit-search-text', lowercasedText)">
+        <select class="form-select">
+            <option selected value=0>Filtra per:</option>
+            <option value="films">Films</option>
+            <option value="series">Serie TV</option>
+            <option value="actors">Attori</option>
+        </select>
         <input class="form-control" type="text" :placeholder="placeholder" v-model.trim="text">
         <button class="btn">Search</button>
     </form>
