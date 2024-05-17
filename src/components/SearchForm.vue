@@ -4,7 +4,8 @@
 export default {
     name: "SearchForm",
     data: () => ({
-        text: ""
+        text: "",
+        selected: ""
     }),
     computed: {
         lowercasedText() {

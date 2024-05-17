@@ -18,7 +18,7 @@ export default {
     <section>
         <h1>{{ category }}</h1>
         <div class="row">
-            <ul class="col">
+            <ul class="col justify-content-center">
                 <CollectionCard v-bind="object" v-for="object in objects" />
             </ul>
         </div>
